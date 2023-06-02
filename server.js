@@ -74,7 +74,7 @@ app.post('/envelopes/:id', (req, res) => {
     } else if (isNaN(req.query.extract) || req.query.extract > updatedEnvelope.budget) {
         res.status(400).send();
     } else {
-        updatedEnvelope.budget -= req.query.extract;
+        updatedEnvelope.budget -= Number(req.query.extract);
         res.status(200).send(updatedEnvelope);
     }
 })
