@@ -1,8 +1,16 @@
-const envelopesRouter = require('./envelopeRouter.js');
+const express = require('express');
+const app = express();
+
+module.exports = app;
+
+const PORT = process.env.PORT || 3000;
+
 const bodyParser = require('body-parser');
-const port = process.env.PORT || 3000;
+app.use(bodyParser.json());
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+const apiRouter = require('./server/api.js');
+app.use('/api', apiRouter);
+
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
 })
-
