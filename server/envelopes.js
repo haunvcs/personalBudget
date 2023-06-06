@@ -76,7 +76,7 @@ envelopesRouter.delete('/envelopes/:id', (req, res) => {
     if (!findEnvelopeById(req.params.id)) {
         res.status(404).send();
     } else {
-        allEnvelopes.splice(req.params.id, 1);
+        getAllEnvelopes().splice(req.params.id, 1);
         res.status(204).send();
     }
 })
