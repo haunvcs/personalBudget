@@ -26,6 +26,16 @@ envelopesRouter.post('/envelopes', (req, res) => {
     }
 })
 
+envelopesRouter.put('/envelopes/:id', (req, res) => {
+    if (!isValidEnvelope(req.body) || req.body.id !== req.params.id) {
+        return res.status(400).send();
+    } else {
+        // const updatedEnvelope = updateEnvelope(req.body);
+        // res.status(200).send(updatedEnvelope);
+        res.status(200).send(updateEnvelope(req.body));
+    }
+})
+
 envelopesRouter.param('id', (req, res, next, id) => {
     const envelope = findEnvelopeById(id);
 
@@ -46,16 +56,6 @@ envelopesRouter.get('/envelopes/:id', (req, res) => {
     //     res.send(envelope);
     // }
     res.send(req.envelope);
-})
-
-envelopesRouter.put('/envelopes/:id', (req, res) => {
-    if (!isValidEnvelope(req.body) || req.body.id !== req.params.id) {
-        return res.status(400).send();
-    } else {
-        // const updatedEnvelope = updateEnvelope(req.body);
-        // res.status(200).send(updatedEnvelope);
-        res.status(200).send(updateEnvelope(req.body));
-    }
 })
 
 envelopesRouter.post('/envelopes/:id', (req, res) => {
@@ -85,7 +85,10 @@ envelopesRouter.delete('/envelopes/:id', (req, res) => {
     //     getAllEnvelopes().splice(req.params.id, 1);
     //     res.status(204).send();
     // }
-    getAllEnvelopes().splice(req.params.id, 1);
+    const deletedIndex = allEnvelopes.findIndex((element) => {
+        return element.id === req.params.id;
+    });
+    getAllEnvelopes().splice(deletedIndex, 1);
     res.status(204).send();
 })
 
