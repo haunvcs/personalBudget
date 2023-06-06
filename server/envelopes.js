@@ -31,8 +31,6 @@ envelopesRouter.put('/envelopes/:id', (req, res) => {
     if (!isValidEnvelope(req.body) || req.body.id !== req.params.id) {
         return res.status(400).send();
     } else {
-        // const updatedEnvelope = updateEnvelope(req.body);
-        // res.status(200).send(updatedEnvelope);
         res.status(200).send(updateEnvelope(req.body));
     }
 })
