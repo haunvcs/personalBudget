@@ -3,6 +3,6 @@ const apiRouter = express.Router;
 
 const envelopesRouter = require('./envelopes.js');
 
-apiRouter.use(envelopesRouter);
+apiRouter.use('/', envelopesRouter);
 
 module.exports = apiRouter;
