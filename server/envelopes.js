@@ -7,7 +7,8 @@ const {
     findEnvelopeById,
     addEnvelope,
     getAllEnvelopes,
-    updateEnvelope
+    updateEnvelope,
+    deleteEnvelope
 } = require('./db.js');
 
 envelopesRouter.get('/', (req, res) => {
@@ -79,17 +80,11 @@ envelopesRouter.post('/envelopes/:id', (req, res) => {
 })
 
 envelopesRouter.delete('/envelopes/:id', (req, res) => {
-    // if (!findEnvelopeById(req.params.id)) {
-    //     res.status(404).send();
-    // } else {
-    //     getAllEnvelopes().splice(req.params.id, 1);
-    //     res.status(204).send();
-    // }
-    const deletedIndex = allEnvelopes.findIndex((element) => {
-        return element.id === req.params.id;
-    });
-    getAllEnvelopes().splice(deletedIndex, 1);
-    res.status(204).send();
+    if (!deleteEnvelope(req.params.id)) {
+        res.status(404).send();
+    } else {
+        res.status(204).send();
+    }
 })
 
 envelopesRouter.post('/envelopes/transfer/:from/:to', (req, res) => {

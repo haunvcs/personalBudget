@@ -67,10 +67,23 @@ const updateEnvelope = instance => {
     }
 };
 
+const deleteEnvelope = id => {
+    const deletedIndex = allEnvelopes.findIndex((element) => {
+        return element.id === id;
+    });
+
+    if (deletedIndex === -1) {
+        return null;
+    } else {
+        return allEnvelopes.splice(deletedIndex, 1);
+    }
+}
+
 module.exports = {
     isValidEnvelope,
     findEnvelopeById,
     addEnvelope,
     getAllEnvelopes,
-    updateEnvelope
+    updateEnvelope,
+    deleteEnvelope
 }
