@@ -5,11 +5,16 @@ module.exports = envelopesRouter;
 const {
     isValidEnvelope,
     findEnvelopeById,
-    addEnvelope
+    addEnvelope,
+    getAllEnvelopes
 } = require('./db.js');
 
 envelopesRouter.get('/', (req, res) => {
     res.send('Hello, World');
+})
+
+envelopesRouter.get('/envelopes', (req, res) => {
+    res.send(getAllEnvelopes);
 })
 
 envelopesRouter.post('/envelopes', (req, res) => {
