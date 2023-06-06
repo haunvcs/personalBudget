@@ -6,7 +6,8 @@ const {
     isValidEnvelope,
     findEnvelopeById,
     addEnvelope,
-    getAllEnvelopes
+    getAllEnvelopes,
+    updateEnvelope
 } = require('./db.js');
 
 envelopesRouter.get('/', (req, res) => {
@@ -49,9 +50,11 @@ envelopesRouter.put('/envelopes/:id', (req, res) => {
     if (!isValidEnvelope(req.body) || req.body.id !== req.params.id) {
         return res.status(400).send();
     } else {
-        let updatedEnvelope = findEnvelopeById(req.params.id);
-        const {id, category, budget} = req.body;
-        updatedEnvelope = {id, category, budget};
+        // let updatedEnvelope = findEnvelopeById(req.params.id);
+        // const {id, category, budget} = req.body;
+        // updatedEnvelope = {id, category, budget};
+        // res.status(200).send(updatedEnvelope);
+        const updatedEnvelope = updateEnvelope(req.body);
         res.status(200).send(updatedEnvelope);
     }
 })
