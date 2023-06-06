@@ -65,7 +65,7 @@ const updateEnvelope = instance => {
         allEnvelopes[updatedIndex] = instance;
         return allEnvelopes[updatedIndex];
     }
-}
+};
 
 module.exports = {
     isValidEnvelope,

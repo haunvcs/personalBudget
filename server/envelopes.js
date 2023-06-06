@@ -19,16 +19,6 @@ envelopesRouter.get('/envelopes', (req, res) => {
 })
 
 envelopesRouter.post('/envelopes', (req, res) => {
-    // if (!isValidEnvelope(req.body)) {
-    //     return res.status(400).send();
-    // }
-
-    // const {id, category, budget} = req.body;
-    // const newEnvelope = {id, category, budget};
-
-    // allEnvelopes.push(newEnvelope);
-
-    // res.status(200).send(newEnvelope);
     if (!addEnvelope(req.body)) {
         return res.status(400).send();
     } else {
@@ -36,49 +26,67 @@ envelopesRouter.post('/envelopes', (req, res) => {
     }
 })
 
-envelopesRouter.get('/envelopes/:id', (req, res) => {
-    const envelope = findEnvelopeById(req.params.id);
+envelopesRouter.param('id', (req, res, next, id) => {
+    const envelope = findEnvelopeById(id);
 
-    if (!envelope) {
-        res.status(404).send();
+    if (envelope) {
+        req.envelope = envelope;
+        next();
     } else {
-        res.send(envelope);
+        res.status(404).send();
     }
+})
+
+envelopesRouter.get('/envelopes/:id', (req, res) => {
+    // const envelope = findEnvelopeById(req.params.id);
+
+    // if (!envelope) {
+    //     res.status(404).send();
+    // } else {
+    //     res.send(envelope);
+    // }
+    res.send(req.envelope);
 })
 
 envelopesRouter.put('/envelopes/:id', (req, res) => {
     if (!isValidEnvelope(req.body) || req.body.id !== req.params.id) {
         return res.status(400).send();
     } else {
-        // let updatedEnvelope = findEnvelopeById(req.params.id);
-        // const {id, category, budget} = req.body;
-        // updatedEnvelope = {id, category, budget};
+        // const updatedEnvelope = updateEnvelope(req.body);
         // res.status(200).send(updatedEnvelope);
-        const updatedEnvelope = updateEnvelope(req.body);
-        res.status(200).send(updatedEnvelope);
+        res.status(200).send(updateEnvelope(req.body));
     }
 })
 
 envelopesRouter.post('/envelopes/:id', (req, res) => {
-    let updatedEnvelope = findEnvelopeById(req.params.id);
+    // let updatedEnvelope = findEnvelopeById(req.params.id);
+    const extract = req.query.extract;
 
-    if (!updatedEnvelope) {
-        res.status(404).send();
-    } else if (isNaN(req.query.extract) || req.query.extract > updatedEnvelope.budget) {
+    // if (!updatedEnvelope) {
+    //     res.status(404).send();
+    // } else if (isNaN(extract) || extract > updatedEnvelope.budget) {
+    //     res.status(400).send();
+    // } else {
+    //     updatedEnvelope.budget -= Number(extract);
+    //     res.status(200).send(updatedEnvelope);
+    // }
+    if (isNaN(extract) | extract > req.envelope.budget) {
         res.status(400).send();
     } else {
-        updatedEnvelope.budget -= Number(req.query.extract);
-        res.status(200).send(updatedEnvelope);
+        req.envelope.budget -= Number(extract);
+        res.status(200).send(req.envelope);
     }
 })
 
 envelopesRouter.delete('/envelopes/:id', (req, res) => {
-    if (!findEnvelopeById(req.params.id)) {
-        res.status(404).send();
-    } else {
-        getAllEnvelopes().splice(req.params.id, 1);
-        res.status(204).send();
-    }
+    // if (!findEnvelopeById(req.params.id)) {
+    //     res.status(404).send();
+    // } else {
+    //     getAllEnvelopes().splice(req.params.id, 1);
+    //     res.status(204).send();
+    // }
+    getAllEnvelopes().splice(req.params.id, 1);
+    res.status(204).send();
 })
 
 envelopesRouter.post('/envelopes/transfer/:from/:to', (req, res) => {
