@@ -49,28 +49,12 @@ envelopesRouter.param('id', (req, res, next, id) => {
 })
 
 envelopesRouter.get('/envelopes/:id', (req, res) => {
-    // const envelope = findEnvelopeById(req.params.id);
-
-    // if (!envelope) {
-    //     res.status(404).send();
-    // } else {
-    //     res.send(envelope);
-    // }
     res.send(req.envelope);
 })
 
 envelopesRouter.post('/envelopes/:id', (req, res) => {
-    // let updatedEnvelope = findEnvelopeById(req.params.id);
     const extract = req.query.extract;
 
-    // if (!updatedEnvelope) {
-    //     res.status(404).send();
-    // } else if (isNaN(extract) || extract > updatedEnvelope.budget) {
-    //     res.status(400).send();
-    // } else {
-    //     updatedEnvelope.budget -= Number(extract);
-    //     res.status(200).send(updatedEnvelope);
-    // }
     if (isNaN(extract) | extract > req.envelope.budget) {
         res.status(400).send();
     } else {
@@ -90,14 +74,15 @@ envelopesRouter.delete('/envelopes/:id', (req, res) => {
 envelopesRouter.post('/envelopes/transfer/:from/:to', (req, res) => {
     let sentEnvelope = findEnvelopeById(req.params.from);
     let receivedEnvelope = findEnvelopeById(req.params.to);
+    const amount = req.query.amount;
 
     if (!sentEnvelope || !receivedEnvelope) {
         res.status(404).send();
-    } else if (isNaN(req.query.amount) || req.query.amount > sentEnvelope.budget) {
+    } else if (isNaN(amount) || amount > sentEnvelope.budget) {
         res.status(400).send();
     } else {
-        sentEnvelope.budget -= Number(req.query.amount);
-        receivedEnvelope.budget += Number(req.query.amount);
+        sentEnvelope.budget -= Number(amount);
+        receivedEnvelope.budget += Number(amount);
         res.status(200).send();
     }
 })
