@@ -39,8 +39,19 @@ const findEnvelopeById = id => {
     return allEnvelopes.find(envelope => envelope.id === id) || null;
 }
 
+const addEnvelope = instance => {
+    if (!isValidEnvelope(instance)) {
+        return null;
+    } else {
+        const {id, category, budget} = instance;
+        const newEnvelope = {id, category, budget};
+        allEnvelopes.push(newEnvelope);
+        return newEnvelope;
+    }
+}
+
 module.exports = {
     isValidEnvelope,
     findEnvelopeById,
-    allEnvelopes
+    addEnvelope
 }

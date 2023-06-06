@@ -5,7 +5,7 @@ module.exports = envelopesRouter;
 const {
     isValidEnvelope,
     findEnvelopeById,
-    allEnvelopes
+    addEnvelope
 } = require('./db.js');
 
 envelopesRouter.get('/', (req, res) => {
@@ -13,16 +13,21 @@ envelopesRouter.get('/', (req, res) => {
 })
 
 envelopesRouter.post('/envelopes', (req, res) => {
-    if (!isValidEnvelope(req.body)) {
+    // if (!isValidEnvelope(req.body)) {
+    //     return res.status(400).send();
+    // }
+
+    // const {id, category, budget} = req.body;
+    // const newEnvelope = {id, category, budget};
+
+    // allEnvelopes.push(newEnvelope);
+
+    // res.status(200).send(newEnvelope);
+    if (!addEnvelope(req.body)) {
         return res.status(400).send();
+    } else {
+        res.status(200).send(addEnvelope(req.body));
     }
-
-    const {id, category, budget} = req.body;
-    const newEnvelope = {id, category, budget};
-
-    allEnvelopes.push(newEnvelope);
-
-    res.status(200).send(newEnvelope);
 })
 
 envelopesRouter.get('/envelopes/:id', (req, res) => {
