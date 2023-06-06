@@ -14,7 +14,7 @@ envelopesRouter.get('/', (req, res) => {
 })
 
 envelopesRouter.get('/envelopes', (req, res) => {
-    res.send(getAllEnvelopes);
+    res.send(getAllEnvelopes());
 })
 
 envelopesRouter.post('/envelopes', (req, res) => {
